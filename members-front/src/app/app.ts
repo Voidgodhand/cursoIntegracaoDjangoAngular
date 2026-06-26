@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ApiService } from './api';
 
@@ -17,17 +17,27 @@ export class App {
     { id: -1, name: '', surname: '', phone: '', email: '', address: ''},
   ];
 
-  constructor(private api:ApiService, private router  : Router) {
+  mensagemSucesso = signal('');
+  mensagemAviso = signal('');
+  mensagemErro = signal('');
+
+  ngOnInit() { 
+    this.getMembers();
+  }
+
+  constructor(private api: ApiService, private router: Router) {
     this.getMembers();
   }
 
   getMembers = () => {
+    this.mensagemErro.set('');
     this.api.getAllMembers().subscribe({
       next: data => {
         this.members = data;
       },
       error: error => {
-        console.log("Aconteceu um erro ao carregar os membros: ", error.message);
+        console.log("Ocorreu um erro ao carregar os membros: ", error.message);
+        this.mensagemErro.set('Ocorreu um erro ao carregar os membros. Por favor, atualize a página.');
       }
     });
   };

@@ -1,30 +1,46 @@
-  <h1>Membros</h1>
+<h1>Membros</h1>
 
-  <table class="alt">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Nome</th>
-        <th>Telefone</th>
+@if(mensagemSucesso()){
+  <div class="alert alert-success">
+    <strong>{{ mensagemSucesso() }}</strong>
+  </div>
+}
+@if(mensagemAviso()){
+  <div class="alert alert-warning">
+    <strong>{{ mensagemAviso() }}</strong>
+  </div>
+}
+@if(mensagemErro()){
+  <div class="alert alert-danger">
+    <strong>{{ mensagemErro() }}</strong>
+  </div>
+}
+
+<table class="alt">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Telefone</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for(member of members; track member)
+    {
+      <tr (click)="memberClicked(member)">
+        <td>{{ member.id }}</td>
+        <td>{{ member.name }} {{ member.surname }}</td>
+        <td>{{ member.phone }}</td>
       </tr>
-    </thead>
+    }
+  </tbody>
+</table>
 
-    <tbody>
-      @for(member of members; track member)
-      {
-        <tr (click)="memberClicked(member)">
-          <td>{{ member.id }}</td>
-          <td>{{ member.name }} {{ member.surname }}</td>
-          <td>{{ member.phone }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
+<button (click)="newMember()" class="button primary">Novo Membro</button>
 
-  <button (click)="newMember()" class="button primary">Novo Membro</button>
-
-  <!--<p>{{ selected_member.id }}</p>
-  <p>{{ selected_member.name }}</p>
-  <p>{{ selected_member.surname }}</p>-->
+<!--<p>{{ selected_member.id }}</p>
+<p>{{ selected_member.name }}</p>
+<p>{{ selected_member.surname }}</p>-->
 
 <router-outlet></router-outlet>
